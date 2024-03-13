@@ -1,11 +1,19 @@
-export function TwiterFollowCard({
-  formatUserName,
-  username,
-  name,
-  isFollowing,
-}) {
+import { useState } from "react";
+
+export function TwiterFollowCard({ children, username, InitialIsFollowing }) {
   //const imageSrc = `https://unavatar.io/${userNamel}`
   // <article style={{ display: "flex", alignItems: "center", color: "#fff" }}> -> se asigna en react native pero es muy tedioso
+  const [isFollowing, setIsFollowing] = useState(InitialIsFollowing);
+
+  const text = isFollowing ? "Siguiendo" : "Seguir";
+  const butttonClassName = isFollowing
+    ? "tw-followCard-button is-following"
+    : "tw-followCard-button";
+
+  const handleClick = () => {
+    setIsFollowing(!isFollowing);
+  };
+
   return (
     <article className="md-tw-followCard">
       <header className="tw-followCard-header">
@@ -16,14 +24,14 @@ export function TwiterFollowCard({
           src={`https://unavatar.io/${username}`}
         />
         <div className="tw-followCard-info">
-          <strong>{name}</strong>
-          <span className="tw-followCard-infoUserName">
-            {formatUserName(username)}
-          </span>
+          <strong>{children}</strong>
+          <span className="tw-followCard-infoUserName">@{username}</span>
         </div>
       </header>
       <aside>
-        <button className="tw-followCard-button">Seguir</button>
+        <button className={butttonClassName} onClick={handleClick}>
+          {text}
+        </button>
       </aside>
     </article>
   );
